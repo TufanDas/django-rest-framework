@@ -1,9 +1,5 @@
 import requests
 
-# ---------------------------------------------------------------------------
-# Simple demo: making GET requests to a public JSON API and inspecting results
-# ---------------------------------------------------------------------------
-
 # A test endpoint that returns a single “post” resource in JSON.
 endpoint = "https://jsonplaceholder.typicode.com/posts/1"
 
