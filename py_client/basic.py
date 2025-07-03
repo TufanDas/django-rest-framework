@@ -1,7 +1,8 @@
 import requests
 
 # A test endpoint that returns a single “post” resource in JSON.
-endpoint = "https://jsonplaceholder.typicode.com/posts/1"
+# endpoint = "https://jsonplaceholder.typicode.com/posts/1"
+endpoint = "http://127.0.0.1:8000/api"
 
 # 1) Plain GET request (no payload)
 response = requests.get(endpoint)
@@ -12,7 +13,7 @@ print(response.text)
 
 # Parse the JSON into a Python dict for easier access.
 print("\nParsed JSON object:")
-print(response.json())
+print(response.json()['messege'])
 
 # HTTP status code—200 means the request succeeded.
 print("\nStatus code:", response.status_code)
