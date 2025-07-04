@@ -22,4 +22,8 @@ urlpatterns = [
 
     # Web application endpoints
     path('students/', include('students.urls')),
+
+    # API endpoints
+    path('api/v1/', include('api.urls')),
+
 ]
