@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from django.http import JsonResponse,HttpResponse
-
 from products.models import Product
-
 from django.forms.models import model_to_dict
 
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 # Create your views here.
 
+@api_view(["GET"])
 def api_home(request, *args, **kwargs):
+    """ Django API view """
+
+    if request.method != "POST":
+        return Response({"detailed" : "GET not allowed."},status=405)
     product_data = Product.objects.all().order_by("?").first()
     data = {}
 
@@ -18,7 +23,7 @@ def api_home(request, *args, **kwargs):
         # data['price'] = product_data.price
         data = model_to_dict(product_data,fields=['id','title','price'])
         
-    return JsonResponse(data)
+    return Response(data)
 
 # from django.http import JsonResponse
 # import json
