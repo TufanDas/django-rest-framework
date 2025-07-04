@@ -5,15 +5,15 @@ import requests
 endpoint = "http://127.0.0.1:8000/api"
 
 # 1) Plain GET request (no payload)
-response = requests.get(endpoint)
+response = requests.get(endpoint, params    ={"product_id":123})
 
 # Raw text body as returned by the server (a JSON‑encoded string).
 print("Raw response text:")
 print(response.text)
 
 # Parse the JSON into a Python dict for easier access.
-print("\nParsed JSON object:")
-print(response.json()['messege'])
+# print("\nParsed JSON object:")
+# print(response.json()['messege'])
 
 # HTTP status code—200 means the request succeeded.
 print("\nStatus code:", response.status_code)

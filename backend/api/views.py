@@ -1,39 +1,54 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
+
+from products.models import Product
+
+from django.forms.models import model_to_dict
+
 # Create your views here.
 
 def api_home(request, *args, **kwargs):
-    return JsonResponse({"messege" : "Hi there this is the django api response."})
+    product_data = Product.objects.all().order_by("?").first()
+    data = {}
 
-from django.http import JsonResponse
-import json
+    if product_data:
+        # data['id'] = product_data.id # refault id field provoded by django model
+        # data['title'] = product_data.title
+        # data['content'] = product_data.content
+        # data['price'] = product_data.price
+        data = model_to_dict(product_data,fields=['id','title','price'])
+        
+    return JsonResponse(data)
 
-def request_demo_view(request):
-    # Get query parameter from URL: ?search=...
-    search_query = request.GET.get('search')
+# from django.http import JsonResponse
+# import json
 
-    # Get POST form data (only works if content type is form)
-    post_name = request.POST.get('name')
+# def request_demo_view(request):
+#     # Get query parameter from URL: ?search=...
+#     search_query = request.GET.get('search')
 
-    # Read raw body (e.g., when sending JSON)
-    try:
-        data = json.loads(request.body)
-        body_name = data.get('name')
-    except:
-        body_name = None
+#     # Get POST form data (only works if content type is form)
+#     post_name = request.POST.get('name')
 
-    # Access headers
-    user_agent = request.headers.get('User-Agent')
-    auth_token = request.headers.get('Authorization')
+#     # Read raw body (e.g., when sending JSON)
+#     try:
+#         data = json.loads(request.body)
+#         body_name = data.get('name')
+#     except:
+#         body_name = None
 
-    # Content-Type (e.g. application/json)
-    content_type = request.content_type
+#     # Access headers
+#     user_agent = request.headers.get('User-Agent')
+#     auth_token = request.headers.get('Authorization')
 
-    return JsonResponse({
-        "search_query": search_query,
-        "post_name": post_name,
-        "body_name": body_name,
-        "user_agent": user_agent,
-        "auth_token": auth_token,
-        "content_type": content_type
-    })
+#     # Content-Type (e.g. application/json)
+#     content_type = request.content_type
+
+#     return JsonResponse({
+#         "search_query": search_query,
+#         "post_name": post_name,
+#         "body_name": body_name,
+#         "user_agent": user_agent,
+#         "auth_token": auth_token,
+#         "content_type": content_type
+#     })

@@ -5,6 +5,6 @@ from . import views
 
 
 urlpatterns = [
-#   path("",views.api_home),
-  path("products/",views.request_demo_view),
+  path("",views.api_home),
+#   path("products/",views.request_demo_view),
  ]
