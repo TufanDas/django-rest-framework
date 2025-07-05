@@ -83,10 +83,36 @@ def studentDetailView(request, pk):
          # Return 204 No Content to indicate successful deletion
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    
 
-class Employee(APIView):    
+# Your Employee API View class
+class Employee(APIView):
+
+    # Handle GET requests - retrieve and return all employee records
     def get(self, request):
+        # Fetch all employee objects from the database
         employees_data = Employees.objects.all()
-        serializer = EmoloyeeSerializer(employees_data , many=True)
+
+        # Serialize the queryset into Python native datatypes (usually a list of dictionaries)
+        serializer = EmoloyeeSerializer(employees_data, many=True)  # 'many=True' because we're serializing multiple objects
+
+        # Return serialized data with HTTP 200 OK status
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # Handle POST requests - add a new employee record to the database
+    def post(self, request):
+        # Extract data sent in the request body (usually JSON)
+        employees_data = request.data
+
+        # Initialize the serializer with the incoming data
+        serializer = EmoloyeeSerializer(data=employees_data)
+
+        # Check if the data is valid (e.g., passes model constraints)
+        if serializer.is_valid():
+            # Save the new employee record to the database
+            serializer.save()
+
+            # Return the serialized data and a 201 CREATED response
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        # If validation fails, return error details with a 400 BAD REQUEST
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
