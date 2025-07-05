@@ -5,7 +5,8 @@ from . import views           # Imports views from the current app directory
 urlpatterns = [
     # Maps the URL 'students/' to the students_view function inside views.py
     path('students/', views.students_view),
-    path('students/<int:pk>', views.studentDetailView),
+    path('students/<int:pk>/', views.studentDetailView),
 
     path('employees/', views.Employee.as_view()),
+    path('employees/<int:pk>/', views.EmployeeDetail.as_view()),
 ]

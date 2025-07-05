@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view  # Allows defining function-based
 from rest_framework.views import APIView
 from employees.models import Employees
 from .serializers import *
-
+from django.http import Http404
 
 
 
@@ -116,3 +116,28 @@ class Employee(APIView):
 
         # If validation fails, return error details with a 400 BAD REQUEST
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# This class handles operations for a single employee based on their primary key (pk)
+class EmployeeDetail(APIView):
+
+    # Helper method to fetch a specific employee object from the database
+    def get_object(self, pk):
+        try:
+            # Try to retrieve the employee with the given primary key
+            return Employees.objects.get(pk=pk)
+        except Employees.DoesNotExist:
+            # If the employee is not found, raise a 404 error
+            raise Http404
+
+    # Handle GET requests to retrieve details of a single employee
+    def get(self, request, pk):
+        # Get the employee object using the helper method
+        employee_object = self.get_object(pk)
+
+        # Serialize the employee object into a JSON-friendly format
+        serializer = EmoloyeeSerializer(employee_object)
+
+        # Return the serialized data with a 200 OK status
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
