@@ -19,10 +19,21 @@ def students_view(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     elif request.method == "POST":
+        # Create a serializer instance with the data sent by the client
         serializer = StudentSerializer(data=request.data)
+        
+        # Check if the incoming data is valid
         if serializer.is_valid():
+            # If valid, save the new student to the database
             serializer.save()
+            
+            # Return the saved student data with a "201 Created" status
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        # If validation fails, print errors in the console for debugging
         print(serializer.errors)
+        
+        # Return validation errors to the client with a "400 Bad Request" status
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         
