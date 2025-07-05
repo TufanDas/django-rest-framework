@@ -140,4 +140,33 @@ class EmployeeDetail(APIView):
 
         # Return the serialized data with a 200 OK status
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    # Handle PUT requests to update an existing employee's details
+    def put(self, request, pk):
+        # Step 1: Retrieve the existing employee object from the database
+        employee_object = self.get_object(pk)
+
+        # Step 2: Pass the new data to the serializer for validation and updating
+        serializer = EmoloyeeSerializer(employee_object, data=request.data)
+
+        # Step 3: If the data is valid, save the updated object
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        # Step 4: If validation fails, return a 400 response with the errors
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Handle DELETE requests to remove an employee from the system
+    def delete(self, request, pk):
+        # Step 1: Fetch the employee object to be deleted
+        employee = self.get_object(pk)
+
+        # Step 2: Delete the employee record from the database
+        employee.delete()
+
+        # Step 3: Return a 204 No Content status to indicate successful deletion
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 
