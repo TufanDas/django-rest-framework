@@ -37,7 +37,7 @@ def students_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET','PUT'])
+@api_view(['GET','PUT','DELETE'])
 def studentDetailView(request, pk):
     try:
         # Try to fetch the student with the given primary key (pk)
@@ -68,5 +68,12 @@ def studentDetailView(request, pk):
         else:
             # If validation fails, return error messages with a 400 Bad Request
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    elif request.method == 'DELETE':
+         # Delete the student record from the database
+        student.delete()
+
+         # Return 204 No Content to indicate successful deletion
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     
