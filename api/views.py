@@ -36,4 +36,20 @@ def students_view(request):
         # Return validation errors to the client with a "400 Bad Request" status
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        
+
+@api_view(['GET'])
+def studentDetailView(request, pk):
+    try:
+        # Try to fetch the student with the given primary key (pk)
+        student = Students.objects.get(pk=pk)
+    except Students.DoesNotExist:
+        # If student not found, log it and return 404 Not Found
+        print("Student with given ID does not exist.")
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+        # Serialize the student object into JSON-friendly format
+        serializer = StudentSerializer(student)
+
+        # Return the serialized data with a 200 OK response
+        return Response(serializer.data, status=status.HTTP_200_OK)

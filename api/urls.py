@@ -4,5 +4,6 @@ from . import views           # Imports views from the current app directory
 # URL configuration for the app
 urlpatterns = [
     # Maps the URL 'students/' to the students_view function inside views.py
-    path('students/', views.students_view)
+    path('students/', views.students_view),
+    path('students/<int:pk>', views.studentDetailView)
 ]
