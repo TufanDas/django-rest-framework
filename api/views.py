@@ -37,7 +37,7 @@ def students_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['GET','PUT'])
 def studentDetailView(request, pk):
     try:
         # Try to fetch the student with the given primary key (pk)
@@ -53,3 +53,20 @@ def studentDetailView(request, pk):
 
         # Return the serialized data with a 200 OK response
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    elif request.method == 'PUT':
+        # Update the student instance with the new data from the request
+        serializer = StudentSerializer(student, data=request.data)
+        
+        # Check if the updated data is valid
+        if serializer.is_valid():
+            # Save the updated student object to the database
+            serializer.save()
+            
+            # Return the updated student data with a 200 OK response
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            # If validation fails, return error messages with a 400 Bad Request
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
