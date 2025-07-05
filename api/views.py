@@ -5,6 +5,13 @@ from .serializers import StudentSerializer  # Imports the serializer to convert 
 from rest_framework.response import Response  # A DRF helper to send standard API responses
 from rest_framework import status  # Provides HTTP status codes for clarity
 from rest_framework.decorators import api_view  # Allows defining function-based views that support REST methods
+from rest_framework.views import APIView
+from employees.models import Employees
+from .serializers import *
+
+
+
+
 
 @api_view(['GET','POST'])  # Decorator that allows only GET requests to this view
 def students_view(request):
@@ -77,3 +84,9 @@ def studentDetailView(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     
+
+class Employee(APIView):    
+    def get(self, request):
+        employees_data = Employees.objects.all()
+        serializer = EmoloyeeSerializer(employees_data , many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
