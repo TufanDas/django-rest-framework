@@ -6,7 +6,7 @@ from rest_framework.response import Response  # A DRF helper to send standard AP
 from rest_framework import status  # Provides HTTP status codes for clarity
 from rest_framework.decorators import api_view  # Allows defining function-based views that support REST methods
 
-@api_view(['GET'])  # Decorator that allows only GET requests to this view
+@api_view(['GET','POST'])  # Decorator that allows only GET requests to this view
 def students_view(request):
     if request.method == "GET":
         # Retrieves all student records from the database
@@ -17,3 +17,12 @@ def students_view(request):
 
         # Returns serialized data with HTTP 200 OK status
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    elif request.method == "POST":
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
