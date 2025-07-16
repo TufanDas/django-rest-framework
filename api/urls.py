@@ -11,6 +11,6 @@ urlpatterns = [
     path('employees/', views.Employee.as_view()),
     path('employees/<int:pk>/', views.EmployeeDetail.as_view()),
 
-    path('employees/mixins/', mixin_views.Employeess.as_view()),
-    # path('employees/mixins<int:pk>/', views.EmployeeDetail.as_view()),
+    path('mixins/employees/', mixin_views.Employeess.as_view()),
+    path('mixins/employees/<int:pk>/', mixin_views.EmployeeDetail.as_view()),
 ]

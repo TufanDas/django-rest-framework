@@ -30,5 +30,28 @@ class Employeess(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
         return self.create(request)
 
     
-class EmployeeDetail(generics.GenericAPIView):
-    pass
+# A view for handling single employee details using generic mixins
+class EmployeeDetail(
+    mixins.RetrieveModelMixin,    # for GET (retrieve)
+    mixins.UpdateModelMixin,      # for PUT (update)
+    mixins.DestroyModelMixin,     # for DELETE (remove)
+    generics.GenericAPIView ):    # base view for mixins
+
+
+    # Query all employee records from the database
+    queryset = Employees.objects.all()
+
+    # Define which serializer to use for this view
+    serializer_class = EmoloyeeSerializer
+
+    # Handle GET request for a specific employee (by primary key)
+    def get(self, request, pk):
+        return self.retrieve(request, pk)
+
+    # Handle PUT request to update a specific employee
+    def put(self, request, pk):
+        return self.update(request, pk)
+
+    # Handle DELETE request to remove a specific employee
+    def delete(self, request, pk):
+        return self.destroy(request, pk)
