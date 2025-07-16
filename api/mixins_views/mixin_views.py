@@ -9,18 +9,26 @@ from rest_framework.views import APIView
 from employees.models import Employees
 from ..serializers import *
 from django.http import Http404
+from rest_framework import mixins, generics # Django REST framework mixins and base view
 
-from rest_framework import mixins, generics
 
+
+# A generic API view to handle listing and creating employee records
 class Employeess(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    # Set the queryset to retrieve all Employee records
     queryset = Employees.objects.all()
+    
+    # Use the EmoloyeeSerializer to convert model instances to JSON and vice versa
     serializer_class = EmoloyeeSerializer
 
+    # Handle GET requests to list all employees
     def get(self, request):
         return self.list(request)
-    
+
+    # Handle POST requests to create a new employee record
     def post(self, request):
         return self.create(request)
+
     
 class EmployeeDetail(generics.GenericAPIView):
     pass
