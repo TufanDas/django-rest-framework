@@ -1,5 +1,6 @@
 from django.urls import path  # Imports the path function to define URL patterns
 from . import views           # Imports views from the current app directory
+from api.mixins_views import mixin_views 
 
 # URL configuration for the app
 urlpatterns = [
@@ -9,4 +10,7 @@ urlpatterns = [
 
     path('employees/', views.Employee.as_view()),
     path('employees/<int:pk>/', views.EmployeeDetail.as_view()),
+
+    path('employees/mixins/', mixin_views.Employeess.as_view()),
+    # path('employees/mixins<int:pk>/', views.EmployeeDetail.as_view()),
 ]
