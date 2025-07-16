@@ -13,9 +13,21 @@ from rest_framework import mixins, generics # Django REST framework mixins and b
 
 
 # Generic view
-class Employees(generics.ListCreateAPIView):
+class Employee(generics.ListCreateAPIView):
     # This query retrieves all Employee records from the database
     queryset = Employees.objects.all()
 
     # Specifies the serializer that converts model instances to JSON (and vice versa)
     serializer_class = EmoloyeeSerializer
+
+
+# A generic view to handle retrieving, updating, and deleting a single employee
+class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
+    # Fetches all Employee records; DRF will pick the one matching the given pk
+    queryset = Employees.objects.all()
+
+    # Serializer that defines how Employee data is converted to/from JSON
+    serializer_class = EmoloyeeSerializer
+
+    # Tells DRF to look for the employee using the 'pk' (primary key) in the URL
+    lookup_field = 'pk'

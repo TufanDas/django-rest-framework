@@ -15,6 +15,7 @@ urlpatterns = [
     path('mixins/employees/', mixin_views.Employeess.as_view()),
     path('mixins/employees/<int:pk>/', mixin_views.EmployeeDetail.as_view()),
 
-    path('generic/employees/', generic_view.Employees.as_view()),
+    path('generic/employees/', generic_view.Employee.as_view()),
+    path('generic/employees/<int:pk>/', generic_view.EmployeeDetail.as_view()),
     
 ]
